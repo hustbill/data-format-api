@@ -95,8 +95,9 @@ public class JsonExample {
 		 */
 		String fullData = "src/main/resources/dataline.txt";
 		String partData = "src/main/resources/part.txt";
-
-		String jsonData = readFile(partData);
+		String data = "src/main/resources/data";
+		
+		String jsonData = readFile(data);
 
 		JsonParser parser = Json.createParser(new StringReader(jsonData));
 		while (parser.hasNext()) {
