@@ -16,39 +16,6 @@ import java.io.StringReader;
 import javax.json.stream.JsonParser;
 import javax.json.stream.JsonParser.Event;
 
-class WebReader {
-	public StringBuffer getData(String address) throws Exception {
-		StringBuffer sb = new StringBuffer();
-
-		URL page = new URL(address);
-		StringBuffer text = new StringBuffer();
-		HttpURLConnection conn = (HttpURLConnection) page.openConnection();
-		conn.connect();
-		InputStreamReader in = new InputStreamReader((InputStream) conn.getContent());
-		InputStream inputStream = (InputStream) conn.getContent();
-		JsonReader jsonReader = Json.createReader(inputStream);
-
-		// // get JsonObject from JsonReader
-		// JsonObject jsonObject = jsonReader.readObject();
-		//
-		// // we can close IO resoure and JsonReader now
-		// jsonReader.close();
-		// inputStream.close();
-
-		// System.out.println(jsonObject.getInt("ss"));
-
-		BufferedReader buff = new BufferedReader(in);
-
-		String line;
-		do {
-			line = buff.readLine();
-			text.append(line + "\n");
-		} while (line != null);
-		sb.append(text.toString());
-		return sb;
-	}
-}
-
 public class JsonExample {
 	private static int infoCount = 0;
 	private static int warnCount = 0;
@@ -153,17 +120,13 @@ public class JsonExample {
 	}
 
 	public static void readJson(String[] args) throws Exception {
-		WebReader app = new WebReader();
-
-		StringBuffer sb = app.getData("http://interview.euclidanalytics.com/data");
-		String personJSONData = "  {" + "       \"name\": \"John\", " + "       \"age\" : 35, "
+				String personJSONData = "  {" + "       \"name\": \"John\", " + "       \"age\" : 35, "
 				+ "       \"isMarried\" : true, " + "       \"email\": null, " + "       \"address\": { "
 				+ "           \"street\": \"#234, Pembroke Road\", " + "           \"city\": \"Dublin\", "
 				+ "           \"zipCode\": \"D4\" " + "       }, "
 				+ "       \"phoneNumbers\": [\"89-923-2342\", \"89-213-2364\"] " + "   }";
-		// JsonParser parser = Json.createParser(new
-		// StringReader(personJSONData));
-		JsonParser parser = Json.createParser(new StringReader(sb.toString().substring(100)));
+		JsonParser parser = Json.createParser(new StringReader(personJSONData));
+		
 		while (parser.hasNext()) {
 			Event event = parser.next();
 			switch (event) {
@@ -203,72 +166,6 @@ public class JsonExample {
 		}
 	}
 
-	public static void test(String[] args) {
-
-		List<User> users = getUsers();
-
-		// build JSON
-		JsonArrayBuilder jsonArrayBuilder = Json.createArrayBuilder();
-		for (User user : users) {
-			jsonArrayBuilder.add(Json.createObjectBuilder().add("id", user.getId()).add("name", user.getName())
-					.add("join", user.getJoin().getTime()));
-		}
-
-		JsonArray usersJson = jsonArrayBuilder.build();
-
-		System.out.println(usersJson.toString());
-
-	}
-
-	// dummy users
-	public static List<User> getUsers() {
-		// http://dreamand.me/java/jee7-json-example/
-		List<User> users = new ArrayList<User>(10);
-		User user = new User();
-		user.setId(1);
-		user.setName("Hero");
-		user.setJoin(new Date());
-		users.add(user);
-
-		user = new User();
-		user.setId(2);
-		user.setName("Citizen");
-		user.setJoin(new Date());
-		users.add(user);
-
-		return users;
-	}
-
-	// POJO
-	public static class User implements Serializable {
-		private long id;
-		private String name;
-		private Date join;
-
-		public long getId() {
-			return id;
-		}
-
-		public void setId(long id) {
-			this.id = id;
-		}
-
-		public String getName() {
-			return name;
-		}
-
-		public void setName(String name) {
-			this.name = name;
-		}
-
-		public Date getJoin() {
-			return join;
-		}
-
-		public void setJoin(Date join) {
-			this.join = join;
-		}
-	}
 }
 
 /*
