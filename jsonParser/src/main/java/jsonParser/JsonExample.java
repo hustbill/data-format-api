@@ -1,3 +1,6 @@
+/**
+ * 
+ */
 package jsonParser;
 
 import java.io.*;
@@ -6,7 +9,19 @@ import java.net.*;
 import javax.json.Json;
 import javax.json.stream.JsonParser;
 
-public class Solution {
+/**
+ * @author huazhang
+ *
+ */
+public class JsonExample {
+
+	/**
+	 * 
+	 */
+	public JsonExample() {
+		// TODO Auto-generated constructor stub
+	}
+
 	private static int infoCount = 0;
 	private static int warnCount = 0;
 
@@ -39,7 +54,7 @@ public class Solution {
 	}
 
 	/*
-	 * Create Json from String, ex  [{ }, {}, {}]
+	 * Create Json from String, ex [{ }, {}, {}]
 	 */
 	public static String format2Json(String data) {
 		// http://stackoverflow.com/questions/33432671/how-to-read-the-json-data-from-log-file-i-will-some-log-file-please-give-me-the
@@ -75,7 +90,11 @@ public class Solution {
 
 	}
 
+	/**
+	 * @param args
+	 */
 	public static void main(String[] args) throws Exception {
+		// TODO Auto-generated method stub
 
 		String url = "http://interview.euclidanalytics.com/data";
 		HashSet<String> snSet = new HashSet<String>();
@@ -111,5 +130,4 @@ public class Solution {
 
 	}
 
-	
 }
