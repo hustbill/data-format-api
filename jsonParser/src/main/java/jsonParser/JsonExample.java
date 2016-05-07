@@ -113,17 +113,17 @@ public class JsonExample {
 			case VALUE_FALSE:
 			case VALUE_NULL:
 			case VALUE_TRUE:
-				// System.out.println(event.toString());
+				 System.out.println(event.toString());
 				break;
 			case KEY_NAME:
-				// System.out.print(event.toString() + " " + parser.getString()
-				// + " - ");
+				 System.out.print(event.toString() + " " + parser.getString()
+				 + " - ");
 
 				break;
 			case VALUE_STRING:
 			case VALUE_NUMBER:
-				// System.out.println(event.toString() + " " +
-				// parser.getString());
+				 System.out.println(event.toString() + " " +
+				 parser.getString());
 				break;
 			}
 		}
