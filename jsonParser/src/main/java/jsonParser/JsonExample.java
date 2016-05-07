@@ -50,54 +50,78 @@ class WebReader {
 }
 
 public class JsonExample {
+	private static int infoCount = 0;
+	private static int warnCount = 0;
 
-	public static String readFile(String Path) {
-		BufferedReader reader = null;
-		String laststr = "";
-		try {
-			FileInputStream fileInputStream = new FileInputStream(Path);
-			InputStreamReader inputStreamReader = new InputStreamReader(fileInputStream, "UTF-8");
-			reader = new BufferedReader(inputStreamReader);
-			String tempString = null;
-			while ((tempString = reader.readLine()) != null) {
-				laststr += tempString;
+	public static String getData(String source) throws Exception {
+		StringBuffer responseOutput = new StringBuffer();
+		if (source.toLowerCase().startsWith("http")) {
+			URL page = new URL(source);
+			StringBuffer text = new StringBuffer();
+			HttpURLConnection conn = (HttpURLConnection) page.openConnection();
+			conn.connect();
+			InputStreamReader in = new InputStreamReader((InputStream) conn.getContent());
+			BufferedReader buff = new BufferedReader(in);
+
+			String line;
+			do {
+				line = buff.readLine();
+				text.append(line + "\n");
+			} while (line != null);
+			responseOutput.append(text.toString());
+		} else {
+			BufferedReader reader = new BufferedReader(new FileReader(source));
+			String sCurrentLine;
+			while ((sCurrentLine = reader.readLine()) != null) {
+				responseOutput.append(sCurrentLine);
 			}
 			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
 		}
-		return laststr;
+
+		return responseOutput.toString();
+	}
+
+	public static String format2Json(String data) {
+		// http://stackoverflow.com/questions/33432671/how-to-read-the-json-data-from-log-file-i-will-some-log-file-please-give-me-the
+		String[] tags = { "INFO: ", "WARN: " };
+		String timestamp = "Jun 23, 2015 11:00:00 PM ";
+		String tail = "org.apache.jsp.index_jsp _jspService";
+
+		String[] strArr = data.split(tail);
+		StringBuilder sb = new StringBuilder();
+
+		System.out.println(sb.toString());
+		for (String str : strArr) {
+			String temp = "";
+			if (str.indexOf(tags[0]) != -1) {
+				infoCount++;
+				temp = str.replace(tags[0], ",");
+				temp = temp.substring(0, temp.length() - timestamp.length());
+			}
+
+			if (str.indexOf(tags[1]) != -1) {
+				warnCount++;
+				temp = str.replace(tags[1], ",");
+				temp = temp.substring(0, temp.length() - timestamp.length());
+			}
+			sb.append(temp);
+		}
+
+		System.out.printf("\n %s %d, \t %s %d\n", tags[0], infoCount, tags[1], warnCount);
+
+		String result = sb.toString();
+		result = "[" + result.substring(2, result.length()) + "]";
+		return result;
+
 	}
 
 	public static void main(String[] args) throws Exception {
-		// WebReader app = new WebReader();
-		// ref:
-		// http://docs.oracle.com/middleware/1213/wls/WLPRG/java-api-for-json-proc.htm#WLPRG1064
-		// ref 2:
-		// http://www.programcreek.com/java-api-examples/index.php?api=javax.json.JsonReader
-		// StringBuffer sb =
-		// app.getData("http://interview.euclidanalytics.com/data");
-		
-		/*
-		 * http://stackoverflow.com/questions/25362942/how-to-parsing-csv-or-json-file-with-apache-spark
-		 * read data from url with jframe: http://www.java2s.com/Tutorial/Java/0320__Network/ReaddatafromaURL.htm
-		 * http://www.programmingforliving.com/2013/07/java-api-for-json-jee-7-part2.html
-		 * http://docs.oracle.com/javaee/7/api/javax/json/stream/JsonParser.html
-		 * https://databricks.gitbooks.io/databricks-spark-reference-applications/content/logs_analyzer/chapter1/spark.html
-		 */
-		String fullData = "src/main/resources/dataline.txt";
-		String partData = "src/main/resources/part.txt";
-		String data = "src/main/resources/data";
-		
-		String jsonData = readFile(data);
+
+		String file = "src/main/resources/data";
+		String url = "http://interview.euclidanalytics.com/data";
+		HashSet<String> snSet = new HashSet<String>();
+
+		String jsonData = format2Json(getData(url));
 
 		JsonParser parser = Json.createParser(new StringReader(jsonData));
 		while (parser.hasNext()) {
@@ -111,17 +135,17 @@ public class JsonExample {
 			case VALUE_FALSE:
 			case VALUE_NULL:
 			case VALUE_TRUE:
-				System.out.println(event.toString());
+				// System.out.println(event.toString());
 				break;
 			case KEY_NAME:
-				System.out.print(event.toString() + " " + parser.getString() + " - ");
+				// System.out.print(event.toString() + " " + parser.getString()
+				// + " - ");
+
 				break;
 			case VALUE_STRING:
 			case VALUE_NUMBER:
-				System.out.println(event.toString() + " " + parser.getString());
-				break;
-			default:
-				System.out.println("arrived here");
+				// System.out.println(event.toString() + " " +
+				// parser.getString());
 				break;
 			}
 		}
@@ -246,10 +270,14 @@ public class JsonExample {
 		}
 	}
 }
-// Output of the program:
-//
-//
-// [{"id":1,"name":"Hero","join":1366808892498},{"id":2,"name":"Citizen","join":1366808892498}]
-//
-//
-// Filed under java
+
+/*
+ * http://stackoverflow.com/questions/25362942/how-to-parsing-csv-or-
+ * json-file-with-apache-spark read data from url with jframe:
+ * http://www.java2s.com/Tutorial/Java/0320__Network/ReaddatafromaURL. htm
+ * http://www.programmingforliving.com/2013/07/java-api-for-json-jee-7-
+ * part2.html
+ * http://docs.oracle.com/javaee/7/api/javax/json/stream/JsonParser.html
+ * https://databricks.gitbooks.io/databricks-spark-reference-
+ * applications/content/logs_analyzer/chapter1/spark.html
+ */

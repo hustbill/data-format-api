@@ -25,7 +25,10 @@ public class FileWordCount {
                 sb.append(s);
             }
             Map<String,Integer> map = new HashMap<String, Integer>();
-            StringTokenizer st = new StringTokenizer(sb.toString(),",.! \n");
+            //StringTokenizer st = new StringTokenizer(sb.toString(),",.! \n");
+            
+            StringTokenizer st = new StringTokenizer(sb.toString(),", \n");
+            
             while (st.hasMoreTokens()) {
                 String letter = st.nextToken();
                 int count;
