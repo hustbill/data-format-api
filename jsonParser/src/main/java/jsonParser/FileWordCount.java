@@ -55,9 +55,21 @@ public class FileWordCount {
                 }
             }
         } catch (FileNotFoundException e) {
-            System.out.println("文件未找到~！");
+            System.out.println("File Not Found! ");
         } catch (IOException e) {
-            System.out.println("文件读异常~！");
+            System.out.println("Read File Exception! ");
         }
     }
 }
+
+
+/*
+ * http://stackoverflow.com/questions/25362942/how-to-parsing-csv-or-
+ * json-file-with-apache-spark read data from url with jframe:
+ * http://www.java2s.com/Tutorial/Java/0320__Network/ReaddatafromaURL. htm
+ * http://www.programmingforliving.com/2013/07/java-api-for-json-jee-7-
+ * part2.html
+ * http://docs.oracle.com/javaee/7/api/javax/json/stream/JsonParser.html
+ * https://databricks.gitbooks.io/databricks-spark-reference-
+ * applications/content/logs_analyzer/chapter1/spark.html
+ */

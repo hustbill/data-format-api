@@ -2,11 +2,6 @@ package jsonParser;
 
 //import
 import javax.json.Json;
-import javax.json.JsonArray;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
-
 import java.io.*;
 import java.util.*;
 import java.net.*;
@@ -14,9 +9,8 @@ import java.net.*;
 import java.io.StringReader;
 
 import javax.json.stream.JsonParser;
-import javax.json.stream.JsonParser.Event;
 
-public class JsonExample {
+public class Solution {
 	private static int infoCount = 0;
 	private static int warnCount = 0;
 
@@ -48,6 +42,9 @@ public class JsonExample {
 		return responseOutput.toString();
 	}
 
+	/*
+	 * Create Json from String, ex  [{ }, {}, {}]
+	 */
 	public static String format2Json(String data) {
 		// http://stackoverflow.com/questions/33432671/how-to-read-the-json-data-from-log-file-i-will-some-log-file-please-give-me-the
 		String[] tags = { "INFO: ", "WARN: " };
@@ -121,14 +118,3 @@ public class JsonExample {
 
 	
 }
-
-/*
- * http://stackoverflow.com/questions/25362942/how-to-parsing-csv-or-
- * json-file-with-apache-spark read data from url with jframe:
- * http://www.java2s.com/Tutorial/Java/0320__Network/ReaddatafromaURL. htm
- * http://www.programmingforliving.com/2013/07/java-api-for-json-jee-7-
- * part2.html
- * http://docs.oracle.com/javaee/7/api/javax/json/stream/JsonParser.html
- * https://databricks.gitbooks.io/databricks-spark-reference-
- * applications/content/logs_analyzer/chapter1/spark.html
- */
