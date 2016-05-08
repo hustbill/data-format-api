@@ -1,7 +1,7 @@
 /**
  * 
  */
-package jsonParser;
+package date;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -17,12 +17,12 @@ import java.util.Locale;
  * @author huazhang
  *
  */
-public class DateFormatExample {
+public class ReformatDate {
 
 	/**
 	 * 
 	 */
-	public DateFormatExample() {
+	public ReformatDate() {
 		// TODO Auto-generated constructor stub
 	}
 
