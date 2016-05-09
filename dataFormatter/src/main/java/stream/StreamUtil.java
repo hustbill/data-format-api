@@ -2,10 +2,11 @@ package stream;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Hashtable;
 import java.util.List;
 import java.util.stream.IntStream;
-import java.util.stream.Stream;
+
 
 public class StreamUtil {
 
@@ -16,9 +17,11 @@ public class StreamUtil {
 	public static void main(String[] args) {
 		// TODO Auto-generated method stub
 		   int[] arr = {1, 7, 5, 3, 9, 11} ;
+		   Arrays.sort(arr);
+		   
 	        int k = 2;
 	        List<List<Integer>> pairs = findPairs(arr, k);
-	        
+	       
 	        for (List<Integer> pair : pairs) {
 	            for (Integer i : pair) {
 	                System.out.print(i + " ");
@@ -32,24 +35,19 @@ public class StreamUtil {
 	        Hashtable<Integer, Integer>  table = new Hashtable<Integer, Integer>();
 	       
 	        for (int x : arr) {
-	            //List<Integer> list = Arrays.asList(arr);
-	 	        //if (Arrays.asList(arr).contains(x - k)) {
-	            if (IntStream.of(arr).anyMatch(i -> i == x - k)) {
-	            	if (!table.contains(x - k))
-	            		table.put(x - k, x);  
-	            }
-
 	            if (IntStream.of(arr).anyMatch(i -> i == x + k)) {
-	              	if (!table.contains(x + k))
-	              		table.put(x, x + k);
+	            	table.put(x, x + k);
 	            }
 	        }
+	        //System.out.print(table);
 	        
 	        List<List<Integer>> result = new ArrayList<List<Integer>>();
-	        for (int i = 0; i < table.size(); i++) {
+	       
+	        for (int key : table.keySet()) {
 	            List<Integer> pair = new ArrayList<Integer>();
-	            pair.add(i);
-	            pair.add(table.get(i));
+	            pair.add(key);
+	            pair.add(table.get(key));
+	            //System.out.printf("%d , %d\n", key, table.get(key));
 	            result.add(pair);
 	        }
 	        
