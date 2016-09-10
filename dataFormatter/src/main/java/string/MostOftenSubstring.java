@@ -7,6 +7,7 @@ import java.util.*;
  * 重复出现次数最多的子串中那个子串
  * "abcabc" 2次abc
  * "bbbb" 4次b
+ * ref : https://gist.github.com/zachelko/9177987
  */
 public class MostOftenSubstring {
     public static int getLongestMaxCountString(String s) {
